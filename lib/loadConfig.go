@@ -1,4 +1,4 @@
-package config
+package lib
 
 import (
 	"io/ioutil"
@@ -19,9 +19,12 @@ type Config struct {
 	AccessKeySecret string
 }
 
-// Load 加载
-func Load() {
-	file, _ := ioutil.ReadFile("./config/config.yml")
+// LoadConfig 加载
+func LoadConfig() {
+	file, _ := ioutil.ReadFile("./config.yml")
+	if len(file) == 0 {
+		panic("未发现config.yml文件")
+	}
 	config := Config{}
 	err := yaml.Unmarshal(file, &config)
 	if err != nil {

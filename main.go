@@ -4,15 +4,14 @@ import (
 	"fmt"
 	"net/http"
 	"tableStore/api"
-	"tableStore/config"
 	"tableStore/lib"
 
 	"github.com/aliyun/aliyun-tablestore-go-sdk/tablestore"
 )
 
 func init() {
-	config.Load() // 初始化配置文件
-	lib.TsClient = tablestore.NewClient(config.Conf.Endpoint, config.Conf.InstanceName, config.Conf.AccessKeyID, config.Conf.AccessKeySecret)
+	lib.LoadConfig() // 初始化配置文件
+	lib.TsClient = tablestore.NewClient(lib.Conf.Endpoint, lib.Conf.InstanceName, lib.Conf.AccessKeyID, lib.Conf.AccessKeySecret)
 	// models.InitFilmTable()
 }
 
@@ -20,6 +19,6 @@ func main() {
 	http.HandleFunc("/dicom", api.DICOMHandler)
 
 	// 启动
-	fmt.Println("starting server on port ", config.Conf.Port, "...")
-	http.ListenAndServe(":"+config.Conf.Port, nil)
+	fmt.Println("starting server on port ", lib.Conf.Port, "...")
+	http.ListenAndServe(":"+lib.Conf.Port, nil)
 }
