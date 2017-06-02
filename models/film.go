@@ -244,14 +244,9 @@ func UpdateOneFilm(film Film) (Code string) {
 	v := reflect.ValueOf(film)
 	for i := 0; i < v.NumField(); i++ {
 		if v.Field(i).CanInterface() { //判断是否为可导出字段
-			if t.Field(i).Name != "Film" {
+			if (t.Field(i).Name != "Film") && (t.Field(i).Name != "Code") {
 				updateRowChange.PutColumn(t.Field(i).Name, v.Field(i).Interface())
 			}
-			// fmt.Printf("%s %s = %v -tag:%s \n",
-			// 	t.Field(i).Name,
-			// 	t.Field(i).Type,
-			// 	v.Field(i).Interface(),
-			// 	t.Field(i).Tag)
 		}
 	}
 	updateRowChange.SetCondition(tablestore.RowExistenceExpectation_EXPECT_EXIST)
@@ -289,7 +284,7 @@ func GetOneFilm(Code string) (film *Film, err error) {
 }
 
 // DeleteOneFilm 删除一个影像
-func DeleteOneFilm(Code string) {
+func DeleteOneFilm(Code string) error {
 	deleteRowReq := new(tablestore.DeleteRowRequest)
 	deleteRowReq.DeleteRowChange = new(tablestore.DeleteRowChange)
 	deleteRowReq.DeleteRowChange.TableName = "Film"
@@ -298,9 +293,5 @@ func DeleteOneFilm(Code string) {
 	deleteRowReq.DeleteRowChange.PrimaryKey = deletePk
 	deleteRowReq.DeleteRowChange.SetCondition(tablestore.RowExistenceExpectation_EXPECT_EXIST)
 	_, err := lib.TsClient.DeleteRow(deleteRowReq)
-	if err != nil {
-		fmt.Println("delete failed with error:", err)
-	} else {
-		fmt.Println("delete row finished")
-	}
+	return err
 }

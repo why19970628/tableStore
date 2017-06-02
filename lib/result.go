@@ -9,7 +9,8 @@ import (
 type Result struct {
 	Success bool        `json:"success"`
 	Data    interface{} `json:"data"`
-	Msg     interface{} `json:"msg"`
+	Code    string      `json:"code"`
+	Msg     string      `json:"msg"`
 }
 
 // ToJSON 转化对象为JSON字符串
