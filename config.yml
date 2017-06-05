@@ -1,6 +1,6 @@
 port: 8080  
 
-endpoint: ""
-instancename: ""
-accesskeyid: ""
-accesskeysecret: ""
+endpoint: "http://txdicom.cn-beijing.ots.aliyuncs.com"
+instancename: "txdicom"
+accesskeyid: "LTAISByECakoDqWs"
+accesskeysecret: "2p0FX78h44hevlKZOGB2zswn3hkkAG"
